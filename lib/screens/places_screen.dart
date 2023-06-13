@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/screens/add_place_screen.dart';
-import 'package:flutter_riverpod/widgets/place_list.dart';
+import 'package:flutter_place_with_riverpod/screens/add_place_screen.dart';
+import 'package:flutter_place_with_riverpod/widgets/place_list.dart';
 
 class PlacesScreen extends StatelessWidget {
   const PlacesScreen({super.key});
