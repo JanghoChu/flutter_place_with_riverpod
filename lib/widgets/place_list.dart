@@ -39,6 +39,13 @@ class PlaceList extends StatelessWidget {
               .titleMedium!
               .copyWith(color: Theme.of(context).colorScheme.onBackground),
         ),
+        subtitle: Text(
+          places[idx].location.address,
+          style: Theme.of(context)
+              .textTheme
+              .bodySmall!
+              .copyWith(color: Theme.of(context).colorScheme.onBackground),
+        ),
         onTap: () => Navigator.of(context).push(MaterialPageRoute(
             builder: (ctx) => PlaceDetailScreen(place: places[idx]))),
       ),
