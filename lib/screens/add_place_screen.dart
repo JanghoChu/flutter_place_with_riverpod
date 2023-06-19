@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_place_with_riverpod/models/place.dart';
 import 'package:flutter_place_with_riverpod/providers/user_places.dart';
 import 'package:flutter_place_with_riverpod/widgets/image_input.dart';
 import 'package:flutter_place_with_riverpod/widgets/location_jnput.dart';
@@ -16,6 +17,7 @@ class AddPlaceScreen extends ConsumerStatefulWidget {
 class _AddPlaceScreenState extends ConsumerState<AddPlaceScreen> {
   final _titleController = TextEditingController();
   File? _selectedImage;
+  PlaceLocation? _selectedLocation;
 
   @override
   void dispose() {
@@ -26,13 +28,20 @@ class _AddPlaceScreenState extends ConsumerState<AddPlaceScreen> {
   void _savePlace() {
     final enteredText = _titleController.text;
 
-    if (enteredText.isEmpty || _selectedImage == null) {
-      return;
-    }
+    if (enteredText.isEmpty ||
+        _selectedImage == null ||
+        _selectedLocation == null) return;
 
-    ref.read(userPlacesProvider.notifier).addPlace(
+    if (_selectedLocation != null) return;
+
+    ref
+        .read(
+          userPlacesProvider.notifier,
+        )
+        .addPlace(
           enteredText,
           _selectedImage!,
+          _selectedLocation!,
         );
 
     Navigator.of(context).pop();
@@ -57,7 +66,9 @@ class _AddPlaceScreenState extends ConsumerState<AddPlaceScreen> {
                 onPickImage: (image) => _selectedImage = image,
               ),
               const SizedBox(height: 16),
-              const LocationInput(),
+              LocationInput(
+                onSelectedLocation: (location) => _selectedLocation = location,
+              ),
               const SizedBox(height: 16),
               ElevatedButton.icon(
                 icon: const Icon(Icons.add),
