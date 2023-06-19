@@ -32,8 +32,6 @@ class _AddPlaceScreenState extends ConsumerState<AddPlaceScreen> {
         _selectedImage == null ||
         _selectedLocation == null) return;
 
-    if (_selectedLocation != null) return;
-
     ref
         .read(
           userPlacesProvider.notifier,
@@ -67,7 +65,11 @@ class _AddPlaceScreenState extends ConsumerState<AddPlaceScreen> {
               ),
               const SizedBox(height: 16),
               LocationInput(
-                onSelectedLocation: (location) => _selectedLocation = location,
+                onSelectedLocation: (location) {
+                  print(location.latitude);
+                  print(location.longtitude);
+                  _selectedLocation = location;
+                },
               ),
               const SizedBox(height: 16),
               ElevatedButton.icon(
