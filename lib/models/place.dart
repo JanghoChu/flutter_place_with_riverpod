@@ -26,4 +26,8 @@ class Place {
   final String title;
   final File image;
   final PlaceLocation location;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) || other is Place && title == other.title;
 }
