@@ -28,6 +28,7 @@ class PlaceChangeNotifier extends ChangeNotifier {
 
 final placeProvider = ChangeNotifierProvider<PlaceChangeNotifier>((ref) {
   final users = ref.watch(userPlacesProvider);
+
   if (users.isEmpty) {
     return PlaceChangeNotifier(
       title: '',
@@ -41,8 +42,8 @@ final placeProvider = ChangeNotifierProvider<PlaceChangeNotifier>((ref) {
   }
 
   return PlaceChangeNotifier(
-    image: users[users.length - 1].image,
-    title: users[users.length - 1].title,
-    location: users[users.length - 1].location,
+    image: users[0].image,
+    title: users[0].title,
+    location: users[0].location,
   );
 });
