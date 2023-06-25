@@ -1,5 +1,9 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:flutter_place_with_riverpod/providers/dio_provider.dart';
+
+import '../test_dio_util.dart';
+
 class CustomMockRef extends Ref {
   @override
   // TODO: implement container
@@ -69,12 +73,6 @@ class CustomMockRef extends Ref {
   }
 
   @override
-  read<T>(ProviderListenable<T> provider) {
-    // TODO: implement read
-    throw UnimplementedError();
-  }
-
-  @override
   refresh<T>(Refreshable<T> provider) {
     // TODO: implement refresh
     throw UnimplementedError();
@@ -85,4 +83,13 @@ class CustomMockRef extends Ref {
     // TODO: implement watch
     throw UnimplementedError();
   }
+
+  @override
+  read<T>(ProviderListenable<T> provider) => provider.read(
+        ProviderContainer(
+          overrides: [
+            dioClientProvider.overrideWith((ref) => mockDioClient),
+          ],
+        ),
+      );
 }
