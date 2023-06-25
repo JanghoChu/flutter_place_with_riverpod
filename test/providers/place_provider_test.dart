@@ -1,13 +1,14 @@
 import 'dart:io';
 
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mockito/mockito.dart';
 import 'package:test/test.dart';
-
+import 'package:mockito/mockito.dart';
+import 'package:http_mock_adapter/http_mock_adapter.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_place_with_riverpod/providers/place_provider.dart';
 import 'package:flutter_place_with_riverpod/providers/user_places.dart';
 import 'package:flutter_place_with_riverpod/models/place.dart';
 
+import '../test_dio_util.dart';
 import 'custom_mock_ref.dart';
 
 class MockPlaceListener extends Mock {
@@ -30,6 +31,9 @@ void main() {
     latitude: 12,
     longtitude: 23,
   );
+
+  const queryParameters = {'name': 'name'};
+  const responseData = {'data': 'hello test!'};
 
   Place place = Place(
     title: title,
@@ -78,7 +82,7 @@ void main() {
 
       container = ProviderContainer(
         overrides: [
-          userPlacesProvider.overrideWith((ref) => userPlacesNotifier)
+          userPlacesProvider.overrideWith((ref) => userPlacesNotifier),
         ],
       );
     });
@@ -95,6 +99,23 @@ void main() {
       userPlacesNotifier.addPlace(title2, emptyImg2, location2);
 
       expect(container.read(placeProvider).place.title, title2);
+    });
+
+    test('fetchs place', () async {
+      addTearDown(container.dispose);
+
+      final dioAdapter = makeDioAdapter(
+        url: 'http://localhost:8899/users',
+        queryParameters: queryParameters,
+        responseData: responseData,
+      );
+
+      await placeChangeNotifier.fetchPlace();
+
+      final actual = dioAdapter.requestMatcher.request;
+
+      expect(actual.method, RequestMethods.get);
+      expect(actual.queryParameters, queryParameters);
     });
 
     test('notifies when user\'s places are added', () async {
