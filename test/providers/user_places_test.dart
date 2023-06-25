@@ -5,7 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mockito/mockito.dart';
 
 import 'package:flutter_place_with_riverpod/models/place.dart';
-import 'package:flutter_place_with_riverpod/providers/user_places.dart';
+import 'package:flutter_place_with_riverpod/providers/user_places_provider.dart';
 
 // mockito를 사용하여 프로바이더가 notify할 때의 값을 추적하기 위한 listeners 객체를 생성
 class PlacesListener extends Mock {

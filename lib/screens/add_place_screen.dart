@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_place_with_riverpod/models/place.dart';
-import 'package:flutter_place_with_riverpod/providers/user_places.dart';
+import 'package:flutter_place_with_riverpod/providers/user_places_provider.dart';
 import 'package:flutter_place_with_riverpod/widgets/image_input.dart';
 import 'package:flutter_place_with_riverpod/widgets/location_jnput.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

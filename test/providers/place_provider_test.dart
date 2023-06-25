@@ -5,7 +5,7 @@ import 'package:mockito/mockito.dart';
 import 'package:http_mock_adapter/http_mock_adapter.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_place_with_riverpod/providers/place_provider.dart';
-import 'package:flutter_place_with_riverpod/providers/user_places.dart';
+import 'package:flutter_place_with_riverpod/providers/user_places_provider.dart';
 import 'package:flutter_place_with_riverpod/models/place.dart';
 
 import '../test_dio_util.dart';

@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_place_with_riverpod/providers/user_places.dart';
+import 'package:flutter_place_with_riverpod/providers/user_places_provider.dart';
 import 'package:flutter_place_with_riverpod/screens/add_place_screen.dart';
 import 'package:flutter_place_with_riverpod/widgets/place_list.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

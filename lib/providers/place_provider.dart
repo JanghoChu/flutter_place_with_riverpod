@@ -5,7 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:flutter_place_with_riverpod/models/place.dart';
 import 'package:flutter_place_with_riverpod/providers/dio_provider.dart';
-import 'package:flutter_place_with_riverpod/providers/user_places.dart';
+import 'package:flutter_place_with_riverpod/providers/user_places_provider.dart';
 
 class PlaceChangeNotifier extends ChangeNotifier {
   PlaceChangeNotifier(
