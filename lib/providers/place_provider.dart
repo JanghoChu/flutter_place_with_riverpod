@@ -6,7 +6,8 @@ import 'package:flutter_place_with_riverpod/providers/user_places.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class PlaceChangeNotifier extends ChangeNotifier {
-  PlaceChangeNotifier({
+  PlaceChangeNotifier(
+    this._ref, {
     required String title,
     required File image,
     required PlaceLocation location,
@@ -17,7 +18,7 @@ class PlaceChangeNotifier extends ChangeNotifier {
       location: location,
     );
   }
-
+  final Ref _ref;
   late Place place;
 
   void changePlace(Place place) {
@@ -31,6 +32,7 @@ final placeProvider = ChangeNotifierProvider<PlaceChangeNotifier>((ref) {
 
   if (users.isEmpty) {
     return PlaceChangeNotifier(
+      ref,
       title: '',
       image: File.fromUri(Uri()),
       location: const PlaceLocation(
@@ -42,6 +44,7 @@ final placeProvider = ChangeNotifierProvider<PlaceChangeNotifier>((ref) {
   }
 
   return PlaceChangeNotifier(
+    ref,
     image: users[0].image,
     title: users[0].title,
     location: users[0].location,

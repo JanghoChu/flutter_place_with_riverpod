@@ -8,6 +8,8 @@ import 'package:flutter_place_with_riverpod/providers/place_provider.dart';
 import 'package:flutter_place_with_riverpod/providers/user_places.dart';
 import 'package:flutter_place_with_riverpod/models/place.dart';
 
+import 'custom_mock_ref.dart';
+
 class MockPlaceListener extends Mock {
   void call(PlaceChangeNotifier? previous, PlaceChangeNotifier? value);
 }
@@ -51,13 +53,15 @@ void main() {
   group('place_change_notifier_test', () {
     setUp(() {
       placeChangeNotifier = PlaceChangeNotifier(
-          title: '',
-          image: emptyImg,
-          location: const PlaceLocation(
-            address: '',
-            latitude: 0,
-            longtitude: 0,
-          ));
+        CustomMockRef(),
+        title: '',
+        image: emptyImg,
+        location: const PlaceLocation(
+          address: '',
+          latitude: 0,
+          longtitude: 0,
+        ),
+      );
     });
 
     test('changesPlace changes place', () async {
@@ -77,15 +81,6 @@ void main() {
           userPlacesProvider.overrideWith((ref) => userPlacesNotifier)
         ],
       );
-
-      placeChangeNotifier = PlaceChangeNotifier(
-          title: '',
-          image: File.fromUri(Uri()),
-          location: const PlaceLocation(
-            address: '',
-            latitude: 0,
-            longtitude: 0,
-          ));
     });
 
     test(
