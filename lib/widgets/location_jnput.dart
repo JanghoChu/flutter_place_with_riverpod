@@ -1,13 +1,14 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_place_with_riverpod/models/place.dart';
 import 'package:location/location.dart';
-import 'package:http/http.dart' as http;
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import 'package:flutter_place_with_riverpod/models/place.dart';
+import 'package:flutter_place_with_riverpod/providers/dio_provider.dart';
+import 'package:flutter_place_with_riverpod/providers/location_provider.dart';
 
 const String apiKey = 'AIzaSyASjh__HkjeWvOVKvEotl-UwF0ZA052g1o';
 
-class LocationInput extends StatefulWidget {
+class LocationInput extends ConsumerStatefulWidget {
   const LocationInput({
     super.key,
     required this.onSelectedLocation,
@@ -16,10 +17,10 @@ class LocationInput extends StatefulWidget {
   final void Function(PlaceLocation location) onSelectedLocation;
 
   @override
-  State<LocationInput> createState() => _LocationInputState();
+  ConsumerState<LocationInput> createState() => _LocationInputState();
 }
 
-class _LocationInputState extends State<LocationInput> {
+class _LocationInputState extends ConsumerState<LocationInput> {
   PlaceLocation? _pickedLocation;
   var _isGettingLocation = false;
 
@@ -31,8 +32,8 @@ class _LocationInputState extends State<LocationInput> {
     return 'https://maps.googleapis.com/maps/api/staticmap?center=$lat,$lng=&zoom=13&size=600x300&maptype=roadmap&markers=color:red%7Clabel:C%7C$lat,$lng&key=$apiKey';
   }
 
-  void _getCurrentLocation() async {
-    Location location = Location();
+  _getCurrentLocation() async {
+    Location location = ref.read(locationProvider);
 
     bool serviceEnabled;
     PermissionStatus permissionGranted;
@@ -54,9 +55,7 @@ class _LocationInputState extends State<LocationInput> {
       }
     }
 
-    setState(() {
-      _isGettingLocation = true;
-    });
+    setState(() => _isGettingLocation = true);
 
     locationData = await location.getLocation();
     final lat = locationData.latitude;
@@ -68,10 +67,9 @@ class _LocationInputState extends State<LocationInput> {
 
     final url = Uri.parse(
         'https://maps.googleapis.com/maps/api/geocode/json?latlng=$lat,$lng&key=$apiKey');
+    final response = await ref.read(dioClientProvider).dio.get(url.toString());
 
-    final response = await http.get(url);
-    final resData = json.decode(response.body);
-    final address = resData['results'][0]['formatted_address'];
+    final address = response.data['results'][0]['formatted_address'];
 
     setState(() {
       _pickedLocation = PlaceLocation(
@@ -123,6 +121,7 @@ class _LocationInputState extends State<LocationInput> {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           TextButton.icon(
+              key: const ValueKey("getCurrentKey"),
               onPressed: _getCurrentLocation,
               icon: const Icon(Icons.location_on),
               label: const Text('Get Current Location')),
