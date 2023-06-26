@@ -2,7 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:flutter_place_with_riverpod/providers/dio_provider.dart';
 
-import '../test_dio_util.dart';
+import '../mock_util.dart';
 
 class CustomMockRef extends Ref {
   @override

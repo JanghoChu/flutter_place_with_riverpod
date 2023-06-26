@@ -1,14 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:mockito/mockito.dart';
-import 'package:mockito/annotations.dart';
 import 'package:http_mock_adapter/http_mock_adapter.dart';
 
-import 'package:flutter_place_with_riverpod/global/dio_client.dart';
-
-import 'test_dio_util.mocks.dart';
-
-@GenerateMocks([DioClient])
-MockDioClient mockDioClient = MockDioClient();
+import 'mock_util.dart';
 
 DioAdapter makeDioAdapter({
   required String url,
@@ -37,15 +31,13 @@ DioAdapter makeDioAdapter({
   );
 
   return dioAdapter
-    ..onGet(
-        url,
-        headers: headers,
-        queryParameters: queryParameters,
-        (server) => server.reply(
-              statusCode,
-              responseData,
-              delay: const Duration(seconds: 1),
-            ))
+    ..onGet(url, headers: headers, queryParameters: queryParameters, (server) {
+      server.reply(
+        statusCode,
+        responseData,
+        delay: const Duration(seconds: 1),
+      );
+    })
     ..onPost(
         url,
         headers: headers,
