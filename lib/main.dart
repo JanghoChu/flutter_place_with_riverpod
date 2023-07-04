@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_place_with_riverpod/screens/places_screen.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import 'package:google_fonts/google_fonts.dart';
+
+import 'package:flutter_place_with_riverpod/providers/navigator_provider.dart';
+import 'package:flutter_place_with_riverpod/screens/places_screen.dart';
 
 final colorScheme = ColorScheme.fromSeed(
   brightness: Brightness.dark,
@@ -27,17 +28,16 @@ final theme = ThemeData().copyWith(
   ),
 );
 
-void main() => runApp(
-      const ProviderScope(child: const MyApp()),
-    );
+void main() => runApp(const ProviderScope(child: MyApp()));
 
-class MyApp extends StatelessWidget {
+class MyApp extends ConsumerWidget {
   const MyApp({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, ref) {
     return MaterialApp(
       title: 'Great Places',
+      navigatorKey: ref.watch(navigatorProvider).navigatorKey,
       theme: theme,
       home: const PlacesScreen(),
     );
